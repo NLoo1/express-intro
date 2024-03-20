@@ -8,17 +8,29 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes will be defined with parameter nums
 
-app.get('/mean/int:nums', (req, res, next) => {
-    const nums = {...req.params.nums}
-    let sum;
-    for(let i = 0; i < nums.length; i++){
-        sum+= nums[i]
+app.get('/mean', (req, res, next) => {
+    try{
+        if (!req.query.nums) throw new ExpressError('nums cannot be empty', 400)
+        const nums = req.query.nums.split(',').map(Number);
+        if(Array.isArray(nums)) throw new ExpressError('Invalid nums', 400)
+        else {
+            let sum = 0;
+            for (let i = 0; i < nums.length; i++) {
+                sum += nums[i];
+            }
+            const mean = sum / nums.length;
+    
+            return res.json({
+                operation: "mean",
+                value: mean
+        });
+        }
+        }
+    catch(e){
+        next(e)
     }
-    return res.json({
-        operation: "mean",
-        value: `${sum/nums.length}`
-    })
-})
+});
+
 
 app.use((req,res,next) => {
     const e = new ExpressError("Page not found", 404)
