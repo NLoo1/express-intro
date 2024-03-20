@@ -12,7 +12,7 @@ app.get('/mean', (req, res, next) => {
     try{
         if (!req.query.nums) throw new ExpressError('nums cannot be empty', 400)
         const nums = req.query.nums.split(',').map(Number);
-        if(Array.isArray(nums)) throw new ExpressError('Invalid nums', 400)
+        if(!Array.isArray(nums)) throw new ExpressError('Invalid nums', 400)
         else {
             let sum = 0;
             for (let i = 0; i < nums.length; i++) {
@@ -23,6 +23,44 @@ app.get('/mean', (req, res, next) => {
             return res.json({
                 operation: "mean",
                 value: mean
+        });
+        }
+        }
+    catch(e){
+        next(e)
+    }
+});
+
+app.get('/median', (req, res, next) => {
+    try{
+        if (!req.query.nums) throw new ExpressError('nums cannot be empty', 400)
+        const nums = req.query.nums.split(',').map(Number);
+        if(!Array.isArray(nums)) throw new ExpressError('Invalid nums', 400)
+        else {
+            nums.sort()
+            let median = nums[Math.floor(nums.length/2)]
+            return res.json({
+                operation: "median",
+                value: median
+        });
+        }
+        }
+    catch(e){
+        next(e)
+    }
+});
+
+app.get('/mode', (req, res, next) => {
+    try{
+        if (!req.query.nums) throw new ExpressError('nums cannot be empty', 400)
+        const nums = req.query.nums.split(',').map(Number);
+        if(!Array.isArray(nums)) throw new ExpressError('Invalid nums', 400)
+        else {
+            //TODO
+    
+            return res.json({
+                operation: "mean",
+                value: mode
         });
         }
         }
