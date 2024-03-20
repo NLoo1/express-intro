@@ -57,9 +57,25 @@ app.get('/mode', (req, res, next) => {
         if(!Array.isArray(nums)) throw new ExpressError('Invalid nums', 400)
         else {
             //TODO
-    
+            let dictNums = {}
+            for(let i = 0; i <nums.length; i++){
+                if(dictNums[nums[i]]){
+                    dictNums[nums[i]] +=1
+                }
+                else{
+                    dictNums[nums[i]] = 1
+                }
+            }
+
+            let mode = 0;
+
+            console.log(dictNums)
+            for(let i = 0; i < nums.length; i++){
+                console.log(dictNums[i])
+                if(dictNums[`${i}`] > mode) // TO DO
+            }
             return res.json({
-                operation: "mean",
+                operation: "mode",
                 value: mode
         });
         }
