@@ -39,6 +39,7 @@ app.get('/median', (req, res, next) => {
         else {
             nums.sort()
             let median = nums[Math.floor(nums.length/2)]
+            if(nums.length % 2 == 0) median = (nums[Math.floor(nums.length/2)-1] + nums[Math.floor(nums.length/2)])/2
             return res.json({
                 operation: "median",
                 value: median
@@ -69,10 +70,8 @@ app.get('/mode', (req, res, next) => {
 
             let mode = 0;
 
-            console.log(dictNums)
             for(let i = 0; i < nums.length; i++){
-                console.log(dictNums[i])
-                if(dictNums[`${i}`] > mode) // TO DO
+                if(dictNums[i] > mode) mode = i
             }
             return res.json({
                 operation: "mode",
